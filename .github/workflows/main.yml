@@ -22,6 +22,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install --upgrade requests
           pip install --upgrade beautifulsoup4
+          pip install --upgrade lxml
 
       - name: Run update script
         run: python update_rss.py
