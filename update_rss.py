@@ -18,12 +18,14 @@ all_items = []
 
 def classify_job(title: str):
     title = title.lower()
-    if any(word in title for word in ["معلم", "مدرس", "teacher"]):
+    if any(word in title for word in ["معلم", "مدرس", "teacher", "تعليم"]):
         return "وظائف تعليمية"
     elif any(word in title for word in ["مهندس", "هندسة", "engineer"]):
         return "وظائف هندسية"
-    elif any(word in title for word in ["طبيب", "ممرض", "doctor", "nurse"]):
+    elif any(word in title for word in ["طبيب", "ممرض", "doctor", "nurse", "health", "صحي"]):
         return "وظائف طبية"
+    elif any(word in title for word in ["محاسب", "مالية", "accountant", "finance"]):
+        return "وظائف مالية"
     else:
         return "وظائف عامة"
 
@@ -64,4 +66,4 @@ rss_content += "</channel>\n</rss>"
 with open("index.xml", "w", encoding="utf-8") as f:
     f.write(rss_content)
 
-print("✅ تم تحديث ملف index.xml بنجاح مع التصنيفات التلقائية")
+print("✅ تم تحديث ملف index.xml بنجاح مع دعم التصنيفات التلقائية للبلوقر")
