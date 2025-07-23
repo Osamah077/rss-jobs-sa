@@ -16,6 +16,17 @@ rss_links = [
 
 all_items = []
 
+def classify_job(title: str):
+    title = title.lower()
+    if any(word in title for word in ["معلم", "مدرس", "teacher"]):
+        return "وظائف تعليمية"
+    elif any(word in title for word in ["مهندس", "هندسة", "engineer"]):
+        return "وظائف هندسية"
+    elif any(word in title for word in ["طبيب", "ممرض", "doctor", "nurse"]):
+        return "وظائف طبية"
+    else:
+        return "وظائف عامة"
+
 # قراءة كل الروابط
 for url in rss_links:
     feed = feedparser.parse(url)
@@ -24,7 +35,8 @@ for url in rss_links:
             "title": entry.title,
             "link": entry.link,
             "published": entry.get("published", datetime.utcnow().strftime("%a, %d %b %Y %H:%M:%S GMT")),
-            "description": entry.get("summary", "وظيفة جديدة - اضغط الرابط للتفاصيل")
+            "description": entry.get("summary", "وظيفة جديدة - اضغط الرابط للتفاصيل"),
+            "category": classify_job(entry.title)
         })
 
 # ترتيب الأحدث أولاً
@@ -42,6 +54,7 @@ for item in all_items[:30]:  # فقط آخر 30 وظيفة
     rss_content += f"<title>{item['title']}</title>\n"
     rss_content += f"<link>{item['link']}</link>\n"
     rss_content += f"<description>{item['description']}</description>\n"
+    rss_content += f"<category>{item['category']}</category>\n"
     rss_content += f"<pubDate>{item['published']}</pubDate>\n"
     rss_content += "</item>\n"
 
@@ -51,4 +64,4 @@ rss_content += "</channel>\n</rss>"
 with open("index.xml", "w", encoding="utf-8") as f:
     f.write(rss_content)
 
-print("✅ تم تحديث ملف index.xml بنجاح")
+print("✅ تم تحديث ملف index.xml بنجاح مع التصنيفات التلقائية")
