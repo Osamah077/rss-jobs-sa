@@ -35,12 +35,12 @@ all_items = []
 for url in rss_links:
     feed = feedparser.parse(url)
     for entry in feed.entries:
+        category = detect_category(entry.title)
         all_items.append({
-            "title": entry.title,
+            "title": f"[{category}] {entry.title}",  # إضافة التصنيف في بداية العنوان
             "link": entry.link,
             "published": entry.get("published", datetime.utcnow().strftime("%a, %d %b %Y %H:%M:%S GMT")),
-            "description": entry.get("summary", "وظيفة جديدة - اضغط الرابط للتفاصيل"),
-            "category": detect_category(entry.title)
+            "description": entry.get("summary", "وظيفة جديدة - اضغط الرابط للتفاصيل")
         })
 
 # ترتيب الأحدث أولاً
@@ -58,7 +58,6 @@ for item in all_items[:30]:  # آخر 30 وظيفة فقط
     rss_content += f"<title>{item['title']}</title>\n"
     rss_content += f"<link>{item['link']}</link>\n"
     rss_content += f"<description>{item['description']}</description>\n"
-    rss_content += f"<category>{item['category']}</category>\n"
     rss_content += f"<pubDate>{item['published']}</pubDate>\n"
     rss_content += "</item>\n"
 
@@ -68,4 +67,4 @@ rss_content += "</channel>\n</rss>"
 with open("index.xml", "w", encoding="utf-8") as f:
     f.write(rss_content)
 
-print("✅ تم تحديث ملف index.xml مع دعم التصنيفات التلقائية للبلوقر")
+print("✅ تم تحديث ملف index.xml مع إضافة التصنيف تلقائيًا في العنوان ليتعرف عليه IFTTT")
