@@ -14,22 +14,24 @@ rss_links = [
     "https://www.google.com.sa/alerts/feeds/02094315391893505011/868323184601298883"
 ]
 
+# التصنيفات حسب الكلمات المفتاحية
+CATEGORIES = {
+    "وظائف تعليمية": ["معلم", "معلمة", "مدرس", "تعليم", "مدرسة"],
+    "وظائف هندسية": ["مهندس", "هندسة", "فني", "CNC", "تقني"],
+    "وظائف طبية": ["طبيب", "ممرض", "صيدلي", "مستشفى", "health"],
+    "وظائف إدارية": ["مدير", "إدارة", "سكرتير", "موارد بشرية"],
+}
+
+def detect_category(title):
+    title_lower = title.lower()
+    for category, keywords in CATEGORIES.items():
+        if any(keyword.lower() in title_lower for keyword in keywords):
+            return category
+    return "وظائف عامة"
+
 all_items = []
 
-def classify_job(title: str):
-    title = title.lower()
-    if any(word in title for word in ["معلم", "مدرس", "teacher", "تعليم"]):
-        return "وظائف تعليمية"
-    elif any(word in title for word in ["مهندس", "هندسة", "engineer"]):
-        return "وظائف هندسية"
-    elif any(word in title for word in ["طبيب", "ممرض", "doctor", "nurse", "health", "صحي"]):
-        return "وظائف طبية"
-    elif any(word in title for word in ["محاسب", "مالية", "accountant", "finance"]):
-        return "وظائف مالية"
-    else:
-        return "وظائف عامة"
-
-# قراءة كل الروابط
+# قراءة الروابط وجمع البيانات
 for url in rss_links:
     feed = feedparser.parse(url)
     for entry in feed.entries:
@@ -38,20 +40,20 @@ for url in rss_links:
             "link": entry.link,
             "published": entry.get("published", datetime.utcnow().strftime("%a, %d %b %Y %H:%M:%S GMT")),
             "description": entry.get("summary", "وظيفة جديدة - اضغط الرابط للتفاصيل"),
-            "category": classify_job(entry.title)
+            "category": detect_category(entry.title)
         })
 
 # ترتيب الأحدث أولاً
 all_items = sorted(all_items, key=lambda x: x["published"], reverse=True)
 
-# إنشاء محتوى RSS جديد
+# إنشاء RSS جديد
 rss_content = '<?xml version="1.0" encoding="UTF-8"?>\n'
 rss_content += '<rss version="2.0">\n<channel>\n'
 rss_content += '<title>وظائف السعودية الموحدة</title>\n'
 rss_content += '<link>https://osamah077.github.io/rss-jobs-sa/</link>\n'
 rss_content += '<description>تحديث تلقائي كل ساعة</description>\n'
 
-for item in all_items[:30]:  # فقط آخر 30 وظيفة
+for item in all_items[:30]:  # آخر 30 وظيفة فقط
     rss_content += f"<item>\n"
     rss_content += f"<title>{item['title']}</title>\n"
     rss_content += f"<link>{item['link']}</link>\n"
@@ -62,8 +64,8 @@ for item in all_items[:30]:  # فقط آخر 30 وظيفة
 
 rss_content += "</channel>\n</rss>"
 
-# حفظه في index.xml
+# حفظ التحديث في index.xml
 with open("index.xml", "w", encoding="utf-8") as f:
     f.write(rss_content)
 
-print("✅ تم تحديث ملف index.xml بنجاح مع دعم التصنيفات التلقائية للبلوقر")
+print("✅ تم تحديث ملف index.xml مع دعم التصنيفات التلقائية للبلوقر")
