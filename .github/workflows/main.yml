@@ -1,8 +1,8 @@
-name: Update RSS every hour
+name: Update RSS every 20 minutes
 
 on:
   schedule:
-    - cron: '0 * * * *' # تشغيل كل ساعة
+    - cron: '*/20 * * * *' # تشغيل كل 20 دقيقة
   workflow_dispatch:
 
 jobs:
