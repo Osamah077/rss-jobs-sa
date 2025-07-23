@@ -1,14 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0">
 <channel>
-<title>وظائف السعودية الموحدة</title>
-<link>https://jobsksa.com</link>
-<description>خلاصات موحدة لجميع الوظائف</description>
-<item>
-<title>مثال: وظيفة في شركة STC</title>
-<link>https://stc.com/jobs/123</link>
-<pubDate>Mon, 22 Jul 2025 01:00:00 GMT</pubDate>
-<description>وظيفة جديدة في شركة STC</description>
-</item>
+    <title>وظائف السعودية الموحدة</title>
+    <link>https://osamah077.github.io/rss-jobs-sa/</link>
+    <description>تحديث تلقائي لكل الوظائف - متوافق مع IFTTT</description>
+
+    <!-- مثال لوظيفة قديمة للحفاظ على البيانات -->
+    <item>
+        <title>[وظائف عامة] STC: وظائف في شركة STC</title>
+        <link>https://stc.com/jobs/123</link>
+        <pubDate>Mon, 22 Jul 2025 01:00:00 GMT</pubDate>
+        <description>وظائف جديدة في شركة STC</description>
+    </item>
+
+    <!-- وظيفة تجريبية جديدة -->
+    <item>
+        <title>[وظائف هندسية] مهندس مدني - شركة مقاولات</title>
+        <link>https://jobsk.sa/jobs/789</link>
+        <pubDate>Wed, 23 Jul 2025 01:18:35 GMT</pubDate>
+        <description>وظيفة شاغرة لمهندس مدني بخبرة لا تقل عن 3 سنوات</description>
+    </item>
+
 </channel>
 </rss>
