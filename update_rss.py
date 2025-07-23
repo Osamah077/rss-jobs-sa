@@ -59,7 +59,7 @@ for item in all_items[:30]:  # آخر 30 وظيفة فقط
     rss_content += f"<link>{item['link']}</link>\n"
     rss_content += f"<description>{item['description']}</description>\n"
     rss_content += f"<pubDate>{item['published']}</pubDate>\n"
-    rss_content += "</item>\n"
+    rss_content += "<media:content url="{image_url if image_url else 'https://raw.githubusercontent.com/Osamah077/rss-jobs-sa/refs/heads/main/%D9%84%D9%88%D8%AC%D9%88%20%D8%AF%D8%A7%D8%B1%20%D8%AB%D9%82%D8%A7%D9%81%D8%A9%20%D8%A7%D8%B5%D9%81%D8%B1%20%D9%88%20%D8%A7%D8%A8%D9%8A%D8%B6%20%D8%AA%D8%B9%D9%84%D9%8A%D9%85%20(3).png'}" medium="image" /></item>\n"
 
 rss_content += "</channel>\n</rss>"
 
